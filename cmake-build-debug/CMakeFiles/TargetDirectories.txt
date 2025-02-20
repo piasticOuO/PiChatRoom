@@ -1,0 +1,3 @@
+/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/PiChatRoom.dir
+/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/rebuild_cache.dir
