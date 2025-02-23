@@ -41,89 +41,120 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = /home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target PiChatRoom
+# Object build statements for EXECUTABLE target PiChatRoomServer
 
 
 #############################################
-# Order-only phony target for PiChatRoom
+# Order-only phony target for PiChatRoomServer
 
-build cmake_object_order_depends_target_PiChatRoom: phony || .
+build cmake_object_order_depends_target_PiChatRoomServer: phony || .
 
-build CMakeFiles/PiChatRoom.dir/server/src/Server.cpp.o: CXX_COMPILER__PiChatRoom_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/Server.cpp || cmake_object_order_depends_target_PiChatRoom
-  DEP_FILE = CMakeFiles/PiChatRoom.dir/server/src/Server.cpp.o.d
+build CMakeFiles/PiChatRoomServer.dir/server/src/Server.cpp.o: CXX_COMPILER__PiChatRoomServer_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/Server.cpp || cmake_object_order_depends_target_PiChatRoomServer
+  DEP_FILE = CMakeFiles/PiChatRoomServer.dir/server/src/Server.cpp.o.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/PiChatRoom.dir
-  OBJECT_FILE_DIR = CMakeFiles/PiChatRoom.dir/server/src
+  OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomServer.dir/server/src
 
-build CMakeFiles/PiChatRoom.dir/server/src/Network.cpp.o: CXX_COMPILER__PiChatRoom_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/Network.cpp || cmake_object_order_depends_target_PiChatRoom
-  DEP_FILE = CMakeFiles/PiChatRoom.dir/server/src/Network.cpp.o.d
+build CMakeFiles/PiChatRoomServer.dir/server/src/Network.cpp.o: CXX_COMPILER__PiChatRoomServer_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/Network.cpp || cmake_object_order_depends_target_PiChatRoomServer
+  DEP_FILE = CMakeFiles/PiChatRoomServer.dir/server/src/Network.cpp.o.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/PiChatRoom.dir
-  OBJECT_FILE_DIR = CMakeFiles/PiChatRoom.dir/server/src
+  OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomServer.dir/server/src
 
-build CMakeFiles/PiChatRoom.dir/server/src/Database.cpp.o: CXX_COMPILER__PiChatRoom_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/Database.cpp || cmake_object_order_depends_target_PiChatRoom
-  DEP_FILE = CMakeFiles/PiChatRoom.dir/server/src/Database.cpp.o.d
+build CMakeFiles/PiChatRoomServer.dir/server/src/Database.cpp.o: CXX_COMPILER__PiChatRoomServer_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/Database.cpp || cmake_object_order_depends_target_PiChatRoomServer
+  DEP_FILE = CMakeFiles/PiChatRoomServer.dir/server/src/Database.cpp.o.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/PiChatRoom.dir
-  OBJECT_FILE_DIR = CMakeFiles/PiChatRoom.dir/server/src
+  OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomServer.dir/server/src
 
-build CMakeFiles/PiChatRoom.dir/server/src/LoginSys.cpp.o: CXX_COMPILER__PiChatRoom_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/LoginSys.cpp || cmake_object_order_depends_target_PiChatRoom
-  DEP_FILE = CMakeFiles/PiChatRoom.dir/server/src/LoginSys.cpp.o.d
+build CMakeFiles/PiChatRoomServer.dir/server/src/LoginSys.cpp.o: CXX_COMPILER__PiChatRoomServer_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/LoginSys.cpp || cmake_object_order_depends_target_PiChatRoomServer
+  DEP_FILE = CMakeFiles/PiChatRoomServer.dir/server/src/LoginSys.cpp.o.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/PiChatRoom.dir
-  OBJECT_FILE_DIR = CMakeFiles/PiChatRoom.dir/server/src
+  OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomServer.dir/server/src
 
-build CMakeFiles/PiChatRoom.dir/server/src/SafeQueue.cpp.o: CXX_COMPILER__PiChatRoom_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/SafeQueue.cpp || cmake_object_order_depends_target_PiChatRoom
-  DEP_FILE = CMakeFiles/PiChatRoom.dir/server/src/SafeQueue.cpp.o.d
+build CMakeFiles/PiChatRoomServer.dir/server/src/SafeQueue.cpp.o: CXX_COMPILER__PiChatRoomServer_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/SafeQueue.cpp || cmake_object_order_depends_target_PiChatRoomServer
+  DEP_FILE = CMakeFiles/PiChatRoomServer.dir/server/src/SafeQueue.cpp.o.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/PiChatRoom.dir
-  OBJECT_FILE_DIR = CMakeFiles/PiChatRoom.dir/server/src
+  OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomServer.dir/server/src
 
-build CMakeFiles/PiChatRoom.dir/server/src/ThreadPool.cpp.o: CXX_COMPILER__PiChatRoom_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/ThreadPool.cpp || cmake_object_order_depends_target_PiChatRoom
-  DEP_FILE = CMakeFiles/PiChatRoom.dir/server/src/ThreadPool.cpp.o.d
+build CMakeFiles/PiChatRoomServer.dir/server/src/ThreadPool.cpp.o: CXX_COMPILER__PiChatRoomServer_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/ThreadPool.cpp || cmake_object_order_depends_target_PiChatRoomServer
+  DEP_FILE = CMakeFiles/PiChatRoomServer.dir/server/src/ThreadPool.cpp.o.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/PiChatRoom.dir
-  OBJECT_FILE_DIR = CMakeFiles/PiChatRoom.dir/server/src
+  OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomServer.dir/server/src
 
-build CMakeFiles/PiChatRoom.dir/server/src/ChatSys.cpp.o: CXX_COMPILER__PiChatRoom_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/ChatSys.cpp || cmake_object_order_depends_target_PiChatRoom
-  DEP_FILE = CMakeFiles/PiChatRoom.dir/server/src/ChatSys.cpp.o.d
+build CMakeFiles/PiChatRoomServer.dir/server/src/ChatSys.cpp.o: CXX_COMPILER__PiChatRoomServer_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/ChatSys.cpp || cmake_object_order_depends_target_PiChatRoomServer
+  DEP_FILE = CMakeFiles/PiChatRoomServer.dir/server/src/ChatSys.cpp.o.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/PiChatRoom.dir
-  OBJECT_FILE_DIR = CMakeFiles/PiChatRoom.dir/server/src
-
-build CMakeFiles/PiChatRoom.dir/client/src/Client.cpp.o: CXX_COMPILER__PiChatRoom_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/client/src/Client.cpp || cmake_object_order_depends_target_PiChatRoom
-  DEP_FILE = CMakeFiles/PiChatRoom.dir/client/src/Client.cpp.o.d
-  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/PiChatRoom.dir
-  OBJECT_FILE_DIR = CMakeFiles/PiChatRoom.dir/client/src
-
-build CMakeFiles/PiChatRoom.dir/client/src/LoginSys.cpp.o: CXX_COMPILER__PiChatRoom_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/client/src/LoginSys.cpp || cmake_object_order_depends_target_PiChatRoom
-  DEP_FILE = CMakeFiles/PiChatRoom.dir/client/src/LoginSys.cpp.o.d
-  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/PiChatRoom.dir
-  OBJECT_FILE_DIR = CMakeFiles/PiChatRoom.dir/client/src
-
-build CMakeFiles/PiChatRoom.dir/client/src/Network.cpp.o: CXX_COMPILER__PiChatRoom_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/client/src/Network.cpp || cmake_object_order_depends_target_PiChatRoom
-  DEP_FILE = CMakeFiles/PiChatRoom.dir/client/src/Network.cpp.o.d
-  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/PiChatRoom.dir
-  OBJECT_FILE_DIR = CMakeFiles/PiChatRoom.dir/client/src
+  OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomServer.dir/server/src
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target PiChatRoom
+# Link build statements for EXECUTABLE target PiChatRoomServer
 
 
 #############################################
-# Link the executable PiChatRoom
+# Link the executable PiChatRoomServer
 
-build PiChatRoom: CXX_EXECUTABLE_LINKER__PiChatRoom_Debug CMakeFiles/PiChatRoom.dir/server/src/Server.cpp.o CMakeFiles/PiChatRoom.dir/server/src/Network.cpp.o CMakeFiles/PiChatRoom.dir/server/src/Database.cpp.o CMakeFiles/PiChatRoom.dir/server/src/LoginSys.cpp.o CMakeFiles/PiChatRoom.dir/server/src/SafeQueue.cpp.o CMakeFiles/PiChatRoom.dir/server/src/ThreadPool.cpp.o CMakeFiles/PiChatRoom.dir/server/src/ChatSys.cpp.o CMakeFiles/PiChatRoom.dir/client/src/Client.cpp.o CMakeFiles/PiChatRoom.dir/client/src/LoginSys.cpp.o CMakeFiles/PiChatRoom.dir/client/src/Network.cpp.o
+build PiChatRoomServer: CXX_EXECUTABLE_LINKER__PiChatRoomServer_Debug CMakeFiles/PiChatRoomServer.dir/server/src/Server.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/Network.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/Database.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/LoginSys.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/SafeQueue.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/ThreadPool.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/ChatSys.cpp.o
   FLAGS = -g
-  OBJECT_DIR = CMakeFiles/PiChatRoom.dir
+  OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = PiChatRoom
-  TARGET_PDB = PiChatRoom.dbg
+  TARGET_FILE = PiChatRoomServer
+  TARGET_PDB = PiChatRoomServer.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target PiChatRoomClient
+
+
+#############################################
+# Order-only phony target for PiChatRoomClient
+
+build cmake_object_order_depends_target_PiChatRoomClient: phony || .
+
+build CMakeFiles/PiChatRoomClient.dir/client/src/Client.cpp.o: CXX_COMPILER__PiChatRoomClient_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/client/src/Client.cpp || cmake_object_order_depends_target_PiChatRoomClient
+  DEP_FILE = CMakeFiles/PiChatRoomClient.dir/client/src/Client.cpp.o.d
+  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/PiChatRoomClient.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomClient.dir/client/src
+
+build CMakeFiles/PiChatRoomClient.dir/client/src/LoginSys.cpp.o: CXX_COMPILER__PiChatRoomClient_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/client/src/LoginSys.cpp || cmake_object_order_depends_target_PiChatRoomClient
+  DEP_FILE = CMakeFiles/PiChatRoomClient.dir/client/src/LoginSys.cpp.o.d
+  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/PiChatRoomClient.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomClient.dir/client/src
+
+build CMakeFiles/PiChatRoomClient.dir/client/src/Network.cpp.o: CXX_COMPILER__PiChatRoomClient_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/client/src/Network.cpp || cmake_object_order_depends_target_PiChatRoomClient
+  DEP_FILE = CMakeFiles/PiChatRoomClient.dir/client/src/Network.cpp.o.d
+  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/PiChatRoomClient.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomClient.dir/client/src
+
+build CMakeFiles/PiChatRoomClient.dir/client/src/SafeQueue.cpp.o: CXX_COMPILER__PiChatRoomClient_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/client/src/SafeQueue.cpp || cmake_object_order_depends_target_PiChatRoomClient
+  DEP_FILE = CMakeFiles/PiChatRoomClient.dir/client/src/SafeQueue.cpp.o.d
+  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/PiChatRoomClient.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomClient.dir/client/src
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target PiChatRoomClient
+
+
+#############################################
+# Link the executable PiChatRoomClient
+
+build PiChatRoomClient: CXX_EXECUTABLE_LINKER__PiChatRoomClient_Debug CMakeFiles/PiChatRoomClient.dir/client/src/Client.cpp.o CMakeFiles/PiChatRoomClient.dir/client/src/LoginSys.cpp.o CMakeFiles/PiChatRoomClient.dir/client/src/Network.cpp.o CMakeFiles/PiChatRoomClient.dir/client/src/SafeQueue.cpp.o
+  FLAGS = -g
+  OBJECT_DIR = CMakeFiles/PiChatRoomClient.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = PiChatRoomClient
+  TARGET_PDB = PiChatRoomClient.dbg
 
 
 #############################################
@@ -159,7 +190,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug
 
-build all: phony PiChatRoom
+build all: phony PiChatRoomServer PiChatRoomClient
 
 # =============================================================================
 # Built-in targets

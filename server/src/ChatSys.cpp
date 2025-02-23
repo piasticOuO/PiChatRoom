@@ -36,7 +36,7 @@ int ChatSys::Broadcast(Message msg) {
     if (str.empty()) {
         return 3;
     }
-    msg.str = str + ":" + msg.str;
+    msg.str = "C " + str + ":" + msg.str;
     for (auto [fd, id] : chat_users) {
         Message newmsg = msg;
         newmsg.receiver = fd;

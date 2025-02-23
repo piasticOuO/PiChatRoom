@@ -21,7 +21,10 @@ add_executable(PiChatRoomServer server/src/Server.cpp
 
 add_executable(PiChatRoomClient client/src/Client.cpp
         client/src/LoginSys.cpp
-        client/include/LoginSys.h
         client/src/Network.cpp
-        client/src/Network.h
+        client/src/SafeQueue.cpp
+
+        client/include/LoginSys.h
+        client/include/Network.h
+        client/include/SafeQueue.h
 )

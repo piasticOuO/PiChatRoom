@@ -9,7 +9,6 @@
 #include <iostream>
 #include <memory>
 #include <mutex>
-#include <queue>
 #include <unistd.h>
 #include <sys/epoll.h>
 

@@ -5,7 +5,6 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
-#include <queue>
 #include <netinet/in.h>
 
 #include "Message.h"
