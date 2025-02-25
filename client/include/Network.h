@@ -4,13 +4,14 @@
 
 #ifndef NETWORK_H
 #define NETWORK_H
-#include "../../server/include/SafeQueue.h"
+#include "../include/Message.h"
+#include "../include/SafeQueue.h"
 
 class Network {
     int sockfd;
-    SafeQueue<std::string> msg_queue;
+    SafeQueue<Message> &msg_queue;
 public:
-    Network(int port, SafeQueue<std::string> &msg_queue);
+    Network(int port, SafeQueue<Message> &msg_queue);
     ~Network();
     void listening();
 };

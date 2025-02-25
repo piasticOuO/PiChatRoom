@@ -28,7 +28,14 @@ int main() {
 
     std::thread loginlistener_thread(login_sys.LoginListener, NULL);
     std::thread reglistener_thread(login_sys.RegListener, NULL);
-    std::thread chatlistener_thread(chat_sys.ChatListener, NULL);;
+    std::thread chatlistener_thread(chat_sys.ChatListener, NULL);
+
+    connectlistener_thread.join();
+    messagelistener_thread.join();
+    messageSender_thread.join();
+    loginlistener_thread.join();
+    reglistener_thread.join();
+    chatlistener_thread.join();
 
     return 0;
 }

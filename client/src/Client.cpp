@@ -2,16 +2,17 @@
 #include <iostream>
 #include <ostream>
 
+#include "../../server/include/Message.h"
 #include "../../server/include/SafeQueue.h"
 #include "../include/LoginSys.h"
 #include "../include/Network.h"
 
 int main() {
 
-    SafeQueue<std::string> msg_queue;
+    SafeQueue<Message> msg_queue;
 
-    LoginSys login_sys(&msg_queue);
-    Network network(9527, &msg_queue);
+    LoginSys login_sys(msg_queue);
+    Network network(9527, msg_queue);
 
     std::cout << "Hello World! Welcome to the piChatRoom!" << std::endl;
     while (true) {
@@ -24,9 +25,9 @@ int main() {
             std::cin >> id;
             std::cout << "password: ";
             std::cin >> password;
-            if (login_sys.login(id, password)) {
-                break;
-            }
+            login_sys.login(id, password);
+            while (!login_sys.getLoginStatus()) {}
+            if (login_sys.getLoginStatus() == 1) { break; }
         } else if (str == "R" || str == "r") {
             std::string name, password;
             std::cout << "name: ";
@@ -38,8 +39,6 @@ int main() {
             std::cout << "Invaild input! Try Again." << std::endl;
         }
     }
-
-
 
     return 0;
 }

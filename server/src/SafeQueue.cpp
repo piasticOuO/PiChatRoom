@@ -20,5 +20,6 @@ void SafeQueue<T>::push(T x) {
 
 template<class T>
 bool SafeQueue<T>::empty() {
+    std::lock_guard lock(mtx);
     return q.empty();
 }
