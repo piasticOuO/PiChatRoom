@@ -10,21 +10,27 @@ add_executable(PiChatRoomServer server/src/Server.cpp
         server/include/Database.h
         server/src/LoginSys.cpp
         server/include/LoginSys.h
-        server/include/Message.h
         server/src/SafeQueue.cpp
         server/include/SafeQueue.h
-        server/src/ThreadPool.cpp
-        server/include/ThreadPool.h
         server/src/ChatSys.cpp
         server/include/ChatSys.h
+
+        tools/src/ThreadPool.cpp
+
+        tools/include/ThreadPool.h
 )
 
 add_executable(PiChatRoomClient client/src/Client.cpp
         client/src/LoginSys.cpp
         client/src/Network.cpp
-        client/src/SafeQueue.cpp
 
         client/include/LoginSys.h
         client/include/Network.h
-        client/include/SafeQueue.h
+        client/src/ChatSys.cpp
+        client/include/ChatSys.h
+
+
+        tools/src/ThreadPool.cpp
+
+        tools/include/ThreadPool.h
 )

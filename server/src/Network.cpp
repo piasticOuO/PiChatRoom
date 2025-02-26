@@ -34,10 +34,11 @@ Network::Network(int port, SafeQueue<Message> &login_queue, SafeQueue<Message> &
 
 Network::~Network() {
     close(socket_id);
+    stop_flag = 1;
 }
 
 [[noreturn]] void Network::ListenConnect() {
-    while (true) {
+    while (!stop_flag) {
         sockaddr_in client{};
         socklen_t len = sizeof(client);
         int socket_id = accept(socket_id, (sockaddr *) &client, &len);
@@ -54,7 +55,7 @@ Network::~Network() {
 
 [[noreturn]] void Network::ListenMessage() {
     std::unique_ptr<epoll_event[]> events = std::make_unique<epoll_event[]>(1024);
-    while (true) {
+    while (!stop_flag) {
         int events_cnt = epoll_wait(epoll_id, events.get(), 1024, -1);
         for (int i = 0; i < events_cnt; i++) {
             int fd = events[i].data.fd;
@@ -103,7 +104,7 @@ int Network::HandleClient(int fd) {
 }
 
 [[noreturn]] void Network::ConnectReturner() {
-    while (true) {
+    while (!stop_flag) {
         if (!regret_queue.empty()) {
             Message msg = regret_queue.pop();
             SendMessage(msg.receiver, msg.str);

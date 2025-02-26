@@ -18,6 +18,7 @@ private:
     int epoll_id;
     SafeQueue<Message> &login_queue, &reg_queue, &chat_queue;
     SafeQueue<Message> &loginret_queue, &regret_queue, &chatret_queue;
+    int stop_flag{};
 public:
     Network(int port, SafeQueue<Message> &login_queue, SafeQueue<Message> &reg_queue, SafeQueue<Message> &chat_queue, SafeQueue<Message> &loginret_queue, SafeQueue<Message> &regret_queue, SafeQueue<Message> &chatret_queue);
     ~Network();

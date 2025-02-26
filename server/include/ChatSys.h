@@ -4,18 +4,17 @@
 
 #ifndef CHATSYS_H
 #define CHATSYS_H
-#include <set>
 #include <unordered_map>
 
 #include "Database.h"
-#include "Message.h"
+#include "../../tools/include/Message.h"
 #include "SafeQueue.h"
 
 class ChatSys {
     Database &db;
     SafeQueue<Message> &chat_queue, &chatret_queue;
     std::unordered_map<int, int> chat_users;
-    public:
+public:
     ChatSys(Database &db, SafeQueue<Message> &chat_queue, SafeQueue<Message> &chatret_queue);
     ~ChatSys();
     void ChatListener();

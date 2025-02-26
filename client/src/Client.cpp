@@ -2,19 +2,19 @@
 #include <iostream>
 #include <ostream>
 
-#include "../../server/include/Message.h"
-#include "../../server/include/SafeQueue.h"
+#include "../include/ChatSys.h"
 #include "../include/LoginSys.h"
 #include "../include/Network.h"
 
 int main() {
-
-    SafeQueue<Message> msg_queue;
-
-    LoginSys login_sys(msg_queue);
-    Network network(9527, msg_queue);
+    ThreadPool pool(4);
+    Network network(9527, pool);
+    LoginSys login_sys(network, pool);
+    ChatSys chat_sys(network, pool);
+    network.initDependency(login_sys, chat_sys);
 
     std::cout << "Hello World! Welcome to the piChatRoom!" << std::endl;
+    // Login
     while (true) {
         std::cout << "Please tell me what do you want to do (L/R): ";
         std::string str;
@@ -39,6 +39,12 @@ int main() {
             std::cout << "Invaild input! Try Again." << std::endl;
         }
     }
+
+    // Chat
+    std::cout << "Successfully login! Welcome to the chatroom." << std::endl;
+    while (true) {
+    }
+
 
     return 0;
 }

@@ -4,16 +4,25 @@
 
 #ifndef NETWORK_H
 #define NETWORK_H
-#include "../include/Message.h"
-#include "../include/SafeQueue.h"
+#include "LoginSys.h"
+#include "ChatSys.h"
+#include "../../tools/include/ThreadPool.h"
+#include "../../tools/include/json.hpp"
+using Json = nlohmann::json;
 
 class Network {
     int sockfd;
-    SafeQueue<Message> &msg_queue;
+    ThreadPool &pool;
+    LoginSys *login_sys;
+    ChatSys *chat_sys;
+
 public:
-    Network(int port, SafeQueue<Message> &msg_queue);
+    Network(int port, ThreadPool &pool);
     ~Network();
+    void initDependency(LoginSys &login_sys, ChatSys &chat_sys);
     void listening();
+    void handleMessage(const Json &msg);
+    void sendMessage(const Json &msg);
 };
 
 #endif //NETWORK_H

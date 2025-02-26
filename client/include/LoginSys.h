@@ -5,17 +5,22 @@
 #ifndef LOGINSYS_H
 #define LOGINSYS_H
 
-#include "../include/Message.h"
-#include "../include/SafeQueue.h"
+#include "Network.h"
+#include "../../tools/include/ThreadPool.h"
+#include "../../tools/include/json.hpp"
+using Json = nlohmann::json;
 
 class LoginSys {
-    SafeQueue<Message> &msg_queue;
     int login_status{};
+    Network &network;
+    ThreadPool &pool;
 public:
-    LoginSys(SafeQueue<Message> &msg_queue);
+    LoginSys(Network &network, ThreadPool &pool);
     ~LoginSys();
     int login(const std::string &id, const std::string &password);
     int reg(const std::string &name, const std::string &password);
+    void handleLoginRet(const Json &ret);
+    void handleRegRet(const Json &ret);
     int getLoginStatus();
     void setLoginStatus(int login_status);
 };

@@ -1,9 +1,11 @@
 #include "../include/LoginSys.h"
+#include "../../tools/include/json.hpp"
+using Json = nlohmann::json;
 
 #include <cmath>
 #include <unistd.h>
 
-LoginSys::LoginSys(SafeQueue<Message> &msg_queue) : msg_queue(msg_queue) {}
+LoginSys::LoginSys(Network &network, ThreadPool &pool) :  network(network), pool(pool) {}
 
 LoginSys::~LoginSys() = default;
 
@@ -15,22 +17,42 @@ void LoginSys::setLoginStatus(int login_status) {
     this -> login_status = login_status;
 }
 
+void LoginSys::handleLoginRet(const Json &ret) {
+    if (ret["result"] == "OK") {
+        setLoginStatus(1);
+    } else {
+        setLoginStatus(-1);
+    }
+}
+
+void LoginSys::handleRegRet(const Json &ret) {
+    if (ret["result"] == "OK") {
+        setLoginStatus(1);
+    } else {
+        setLoginStatus(-1);
+    }
+}
+
+
 int LoginSys::login(const std::string &id, const std::string &password) {
-    Message msg;
-    msg.str = "L " + id + " " + password;
-    msg.timestamp = time(nullptr);
-    msg.messageType = Message::LOGIN;
-    msg_queue.push(msg);
+    Json json{
+        {"type", "login"},
+        {"id", id},
+        {"password", password}
+    };
+    pool.enqueue(std::bind(network.sendMessage, json));
     setLoginStatus(0);
     return 0;
 }
 
 int LoginSys::reg(const std::string &name, const std::string &password) {
-    Message msg;
-    msg.str = "L " + name + " " + password;
-    msg.timestamp = time(nullptr);
-    msg.messageType = Message::REG;
-    msg_queue.push(msg);
+    Json json{
+            {"type", "reg"},
+            {"name", name},
+            {"password", password}
+    };
+    pool.enqueue(std::bind(network.sendMessage, json));
+    setLoginStatus(0);
     return 0;
 }
 
