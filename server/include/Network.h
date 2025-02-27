@@ -7,26 +7,28 @@
 
 #include <netinet/in.h>
 
-#include "Message.h"
-#include "SafeQueue.h"
+#include "../../tools/include/ThreadPool.h"
+#include "../include/ChatSys.h"
+#include "../include/LoginSys.h"
 
 class Network {
-private:
     int socket_id;
     int port;
     sockaddr_in address{};
     int epoll_id;
-    SafeQueue<Message> &login_queue, &reg_queue, &chat_queue;
-    SafeQueue<Message> &loginret_queue, &regret_queue, &chatret_queue;
+    LoginSys *login_sys;
+    ChatSys *chat_sys;
+    ThreadPool &pool;
     int stop_flag{};
 public:
-    Network(int port, SafeQueue<Message> &login_queue, SafeQueue<Message> &reg_queue, SafeQueue<Message> &chat_queue, SafeQueue<Message> &loginret_queue, SafeQueue<Message> &regret_queue, SafeQueue<Message> &chatret_queue);
+    Network(int port, ThreadPool &pool);
     ~Network();
+    void InjectDependency(LoginSys &login_sys, ChatSys &chat_sys);
     [[noreturn]] void ListenConnect();
     [[noreturn]] void ListenMessage();
-    int HandleClient(int fd);
-    void ConnectReturner();
-    int SendMessage(int fd, const std::string &msg);
+    void closeConnect(int fd);
+    void HandleClient(int fd);
+    void SendMessage(int fd, const Json &msg);
 };
 
 

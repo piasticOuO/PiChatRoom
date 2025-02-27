@@ -7,18 +7,19 @@
 #include <unordered_map>
 
 #include "Database.h"
-#include "../../tools/include/Message.h"
-#include "SafeQueue.h"
+#include "Network.h"
+#include "../../tools/include/json.hpp"
+using Json = nlohmann::json;
 
 class ChatSys {
     Database &db;
-    SafeQueue<Message> &chat_queue, &chatret_queue;
+    Network &network;
+    ThreadPool &pool;
     std::unordered_map<int, int> chat_users;
 public:
-    ChatSys(Database &db, SafeQueue<Message> &chat_queue, SafeQueue<Message> &chatret_queue);
+    ChatSys(Database &db, Network &network, ThreadPool &pool);
     ~ChatSys();
-    void ChatListener();
-    int Broadcast(Message msg);
+    void Broadcast(const Json &msg);
     int AddUser(int userid, int userfd);
     int RemoveUser(int userid);
 };

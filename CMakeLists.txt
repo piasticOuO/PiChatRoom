@@ -10,8 +10,6 @@ add_executable(PiChatRoomServer server/src/Server.cpp
         server/include/Database.h
         server/src/LoginSys.cpp
         server/include/LoginSys.h
-        server/src/SafeQueue.cpp
-        server/include/SafeQueue.h
         server/src/ChatSys.cpp
         server/include/ChatSys.h
 

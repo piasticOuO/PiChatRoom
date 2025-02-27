@@ -14,8 +14,8 @@
 
 struct Message;
 
-Network::Network(int port, SafeQueue<Message> &login_queue, SafeQueue<Message> &reg_queue, SafeQueue<Message> &chat_queue, SafeQueue<Message> &loginret_queue, SafeQueue<Message> &regret_queue, SafeQueue<Message> &chatret_queue):
-                port(port), login_queue(login_queue), reg_queue(reg_queue), chat_queue(chat_queue), loginret_queue(loginret_queue), regret_queue(regret_queue), chatret_queue(chatret_queue) {
+Network::Network(int port, ThreadPool &pool):
+                port(port), pool(pool) {
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(port);
@@ -35,6 +35,11 @@ Network::Network(int port, SafeQueue<Message> &login_queue, SafeQueue<Message> &
 Network::~Network() {
     close(socket_id);
     stop_flag = 1;
+}
+
+void Network::InjectDependency(LoginSys &login_sys, ChatSys &chat_sys) {
+    this -> login_sys = &login_sys;
+    this -> chat_sys = &chat_sys;
 }
 
 [[noreturn]] void Network::ListenConnect() {
@@ -59,69 +64,44 @@ Network::~Network() {
         int events_cnt = epoll_wait(epoll_id, events.get(), 1024, -1);
         for (int i = 0; i < events_cnt; i++) {
             int fd = events[i].data.fd;
-            int ret = HandleClient(fd);
-            if (ret == 0) {
-                epoll_ctl(epoll_id, EPOLL_CTL_DEL, fd, nullptr);
-            }
+            HandleClient(fd);
         }
     }
 }
 
-int Network::HandleClient(int fd) {
+void Network::closeConnect(int fd) {
+    epoll_ctl(epoll_id, EPOLL_CTL_DEL, fd, nullptr);
+}
 
+
+void Network::HandleClient(int fd) {
     char buf[BUFSIZ];
-    int len = recv(fd, buf, 1, 0);
+    ssize_t len = recv(fd, buf, BUFSIZ, 0);
     if (len == 0) {
-        return 0;
+        closeConnect(fd);
+        return;
     }
-    char source = buf[0];
-    Message msg;
-    while (true) {
-        len = recv(fd, buf, BUFSIZ, 0);
-        if (len == 0) {
-            break;
-        }
-        msg.str = std::to_string(fd) + " ";
-        msg.str += buf;
-        msg.receiver = 0;
-        msg.sender = fd;
-        msg.timestamp = time(nullptr);
-        switch (source) {
-            case 'L':
-                login_queue.push(msg);
+    Json json = Json::parse(std::string(buf, len));
+    if (json.is_object()) {
+        json["fd"] = fd;
+        switch (json["type"]) {
+            case "login":
+                login_sys -> Login(json["id"], json["password"]);
                 break;
-            case 'C':
-                chat_queue.push(msg);
+            case "ret":
+                login_sys -> Reg(json["password"], json["name"]);
                 break;
-            case 'R':
-                reg_queue.push(msg);
+            case "chat":
+                chat_sys -> Broadcast(json["content"]);
                 break;
             default:
-                std::cerr << "Invaild source: " << source << std::endl;
+                std::cerr << "Unknown JSON type" << std::endl;
         }
-    }
-    return 1;
-}
-
-[[noreturn]] void Network::ConnectReturner() {
-    while (!stop_flag) {
-        if (!regret_queue.empty()) {
-            Message msg = regret_queue.pop();
-            SendMessage(msg.receiver, msg.str);
-        }
-        if (!loginret_queue.empty()) {
-            Message msg = loginret_queue.pop();
-            SendMessage(msg.receiver, msg.str);
-        }
-        if (!chatret_queue.empty()) {
-            Message msg = chatret_queue.pop();
-            SendMessage(msg.receiver, msg.str);
-        }
+    } else {
+        std::cerr << "Could not parse JSON" << std::endl;
     }
 }
 
-
-int Network::SendMessage(int fd, const std::string &msg) {
-    write(fd, msg.c_str(), msg.size());
-    return 0;
+void Network::SendMessage(int fd, const Json &msg) {
+    send(fd, msg.dump().c_str(), 0, MSG_NOSIGNAL);
 }

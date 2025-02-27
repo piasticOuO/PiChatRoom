@@ -15,12 +15,13 @@ int main() {
 
     std::cout << "Hello World! Welcome to the piChatRoom!" << std::endl;
     // Login
+    int id = -1;
     while (true) {
         std::cout << "Please tell me what do you want to do (L/R): ";
         std::string str;
         std::cin >> str;
         if (str == "L" || str == "l") {
-            std::string id, password;
+            std::string password;
             std::cout << "id: ";
             std::cin >> id;
             std::cout << "password: ";
@@ -35,6 +36,9 @@ int main() {
             std::cout << "password: ";
             std::cin >> password;
             login_sys.reg(name, password);
+            while (!login_sys.getLoginStatus()) {}
+            if (login_sys.getLoginStatus() == 1) { break; }
+
         } else {
             std::cout << "Invaild input! Try Again." << std::endl;
         }
@@ -43,8 +47,10 @@ int main() {
     // Chat
     std::cout << "Successfully login! Welcome to the chatroom." << std::endl;
     while (true) {
+        std::string str;
+        getline(std::cin, str);
+        chat_sys.sendMessage(str);
     }
-
 
     return 0;
 }

@@ -8,20 +8,18 @@
 #include <queue>
 
 #include "Database.h"
-#include "Message.h"
-#include "SafeQueue.h"
+#include "Network.h"
+#include "../../tools/include/ThreadPool.h"
 
 class LoginSys {
     Database &db;
-    SafeQueue<Message> &login_queue, &reg_queue;
-    SafeQueue<Message> &loginret_queue, &regret_queue;
+    Network &network;
+    ThreadPool &pool;
 public:
-    LoginSys(Database &db, SafeQueue<Message> &login_queue, SafeQueue<Message> &reg_queue, SafeQueue<Message> &loginret_queue, SafeQueue<Message> &regret_queue);
+    LoginSys(Database &db, Network &network, ThreadPool &pool);
     ~LoginSys();
-    int Login(const std::string &id, const std::string &password);
-    int Reg(const std::string &password, const std::string &username);
-    void LoginListener();
-    void RegListener();
+    void Login(int id, const std::string &password);
+    void Reg(const std::string &password, const std::string &name);
 };
 
 #endif //LOGINSYS_H

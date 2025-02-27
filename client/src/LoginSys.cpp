@@ -28,13 +28,17 @@ void LoginSys::handleLoginRet(const Json &ret) {
 void LoginSys::handleRegRet(const Json &ret) {
     if (ret["result"] == "OK") {
         setLoginStatus(1);
+        login_id = ret["id"];
     } else {
         setLoginStatus(-1);
     }
 }
 
+int LoginSys::getLoginID() {
+    return login_id;
+}
 
-int LoginSys::login(const std::string &id, const std::string &password) {
+int LoginSys::login(int id, const std::string &password) {
     Json json{
         {"type", "login"},
         {"id", id},

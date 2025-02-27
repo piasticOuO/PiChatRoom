@@ -73,12 +73,6 @@ build CMakeFiles/PiChatRoomServer.dir/server/src/LoginSys.cpp.o: CXX_COMPILER__P
   OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
   OBJECT_FILE_DIR = CMakeFiles/PiChatRoomServer.dir/server/src
 
-build CMakeFiles/PiChatRoomServer.dir/server/src/SafeQueue.cpp.o: CXX_COMPILER__PiChatRoomServer_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/SafeQueue.cpp || cmake_object_order_depends_target_PiChatRoomServer
-  DEP_FILE = CMakeFiles/PiChatRoomServer.dir/server/src/SafeQueue.cpp.o.d
-  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
-  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomServer.dir/server/src
-
 build CMakeFiles/PiChatRoomServer.dir/server/src/ChatSys.cpp.o: CXX_COMPILER__PiChatRoomServer_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/server/src/ChatSys.cpp || cmake_object_order_depends_target_PiChatRoomServer
   DEP_FILE = CMakeFiles/PiChatRoomServer.dir/server/src/ChatSys.cpp.o.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
@@ -99,7 +93,7 @@ build CMakeFiles/PiChatRoomServer.dir/tools/src/ThreadPool.cpp.o: CXX_COMPILER__
 #############################################
 # Link the executable PiChatRoomServer
 
-build PiChatRoomServer: CXX_EXECUTABLE_LINKER__PiChatRoomServer_Debug CMakeFiles/PiChatRoomServer.dir/server/src/Server.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/Network.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/Database.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/LoginSys.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/SafeQueue.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/ChatSys.cpp.o CMakeFiles/PiChatRoomServer.dir/tools/src/ThreadPool.cpp.o
+build PiChatRoomServer: CXX_EXECUTABLE_LINKER__PiChatRoomServer_Debug CMakeFiles/PiChatRoomServer.dir/server/src/Server.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/Network.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/Database.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/LoginSys.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/ChatSys.cpp.o CMakeFiles/PiChatRoomServer.dir/tools/src/ThreadPool.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
   POST_BUILD = :

@@ -4,8 +4,9 @@
 
 #include "../include/ChatSys.h"
 
-ChatSys::ChatSys(Database &db, SafeQueue<Message> &chat_queue, SafeQueue<Message> &chatret_queue) :
-                db(db), chat_queue(chat_queue), chatret_queue(chatret_queue) {}
+#include <iostream>
+
+ChatSys::ChatSys(Database &db, Network &network, ThreadPool &pool) : db(db), network(network), pool(pool) {}
 
 ChatSys::~ChatSys() = default;
 
@@ -23,8 +24,8 @@ int ChatSys::RemoveUser(int userfd) {
     return 0;
 }
 
-int ChatSys::Broadcast(Message msg) {
-    int sender = chat_users[msg.sender];
+void ChatSys::Broadcast(const Json &msg) {
+    int sender = msg["id"];
     std::string str;
     db.query("SELECT username FROM users WHERE id = " + std::to_string(sender) + ";");
     db.commit();
@@ -34,23 +35,13 @@ int ChatSys::Broadcast(Message msg) {
         str = row[0];
     }
     if (str.empty()) {
-        return 3;
+        std::cerr << "Invaild userid" << std::endl;
     }
-    msg.str = "C " + str + ":" + msg.str;
+    Json msgall;
+    msgall["sender"] = str;
+    msgall["content"] = msg["content"];
     for (auto [fd, id] : chat_users) {
-        Message newmsg = msg;
-        newmsg.receiver = fd;
-        chatret_queue.push(newmsg);
-    }
-    return 0;
-}
-
-[[noreturn]] void ChatSys::ChatListener() {
-    while (true) {
-        if (!chat_queue.empty()) {
-            Message msg = chat_queue.pop();
-            Broadcast(msg);
-        }
+        network.SendMessage(fd, msgall);
     }
 }
 
