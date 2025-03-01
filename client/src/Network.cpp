@@ -3,6 +3,8 @@
 //
 
 #include "../include/Network.h"
+#include "../include/ChatSys.h"
+#include "../include/LoginSys.h"
 
 #include <iostream>
 #include <ostream>
@@ -38,29 +40,35 @@ void Network::initDependency(LoginSys &login_sys, ChatSys &chat_sys) {
     this -> chat_sys = &chat_sys;
 }
 
-
 void Network::listening() {
-    char buf[BUFSIZ];
     while (true) {
-        ssize_t len = recv(sockfd,buf,0,MSG_WAITALL);
-        std::string str = std::string(buf,len);
-        Json msg = Json::parse(str);
-        pool.enqueue(std::bind(this -> handleMessage, msg));
+        std::unique_ptr<char> buf(new char[BUFSIZ]);
+        ssize_t len = read(sockfd, buf.get(), BUFSIZ - 1);
+        if (len > 0) {
+            std::string str = std::string(buf.get(),len);
+
+            Json msg = Json::parse(str);
+            pool.enqueue(std::bind(&Network::handleMessage, this, msg));
+        } else if (len == 0) {
+            std::cout << "[INFO] Server closed" << std::endl;
+            break; // 退出循环
+        }
     }
 }
 
 void Network::handleMessage(const Json &msg) {
-    switch (msg["type"]) {
-        case "loginret" :
+    MessageType type = msg["type"];
+    switch (type) {
+        case LOGINRET :
             login_sys -> handleLoginRet(msg);
             break;
-        case "regret" :
+        case REGRET :
             login_sys -> handleRegRet(msg);
             break;
-        case "chatret" :
+        case CHATRET :
             chat_sys -> handleChatRet(msg);
             break;
-        case "chatmsg" :
+        case CHATMSG :
             chat_sys -> getMessage(msg);
             break;
         default :
@@ -69,5 +77,6 @@ void Network::handleMessage(const Json &msg) {
 }
 
 void Network::sendMessage(const Json &msg) {
-    send(sockfd, msg.dump().c_str(), 0, MSG_NOSIGNAL);
+    std::string msgstr = msg.dump();
+    send(sockfd, msgstr.c_str(), msgstr.size(), MSG_NOSIGNAL);
 }

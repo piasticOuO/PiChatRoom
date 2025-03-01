@@ -6,23 +6,28 @@
 #define DATABASE_H
 
 #include <string>
-#include <mysql/mysql.h>
+#include <cppconn/driver.h>
+#include <cppconn/statement.h>
+#include <cppconn/resultset.h>
 
 class Database {
-    MYSQL *mysql;
+
+    using StmtPtr = std::unique_ptr<sql::Statement>;
+    using ResultPtr = std::unique_ptr<sql::ResultSet>;
+    using ConnPtr = std::unique_ptr<sql::Connection>;
+
+    sql::Driver *driver;
+    ConnPtr conn;
     int port;
-    std::string host;
-    std::string user;
-    std::string password;
-    std::string db;
 
     public:
     Database(int port, const std::string &host, const std::string &user, const std::string &password, const std::string &db);
     ~Database();
-    bool connect();
-    int query(const std::string &query);
-    MYSQL_RES *getResult();
-    bool commit();
+    Database(const Database&) = delete;
+    Database& operator=(const Database&) = delete;
+    int ExecuteUpdate(const std::string &sql, int *insert_id = nullptr);
+    std::pair<StmtPtr, ResultPtr> ExecuteQuery(const std::string &sql);
+
 };
 
 #endif //DATABASE_H

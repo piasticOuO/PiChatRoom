@@ -5,10 +5,9 @@
 #ifndef LOGINSYS_H
 #define LOGINSYS_H
 
+#include "../../tools/include/ThreadPool.hpp"
+#include "../../tools/include/Message.hpp"
 #include "Network.h"
-#include "../../tools/include/ThreadPool.h"
-#include "../../tools/include/json.hpp"
-using Json = nlohmann::json;
 
 class LoginSys {
     int login_status{};

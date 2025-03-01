@@ -4,22 +4,25 @@
 
 #ifndef LOGINSYS_H
 #define LOGINSYS_H
-#include <memory>
-#include <queue>
 
 #include "Database.h"
-#include "Network.h"
-#include "../../tools/include/ThreadPool.h"
+#include "../../tools/include/ThreadPool.hpp"
+#include "../../tools/include/Message.hpp"
+
+class ChatSys;
+class Network;
 
 class LoginSys {
-    Database &db;
+    std::shared_ptr<Database> db;
+    ChatSys &chat_sys;
     Network &network;
     ThreadPool &pool;
 public:
-    LoginSys(Database &db, Network &network, ThreadPool &pool);
+    LoginSys(std::shared_ptr<Database> db, Network &network, ThreadPool &pool, ChatSys &chat_sys);
     ~LoginSys();
-    void Login(int id, const std::string &password);
-    void Reg(const std::string &password, const std::string &name);
+    void Login(const Json &json);
+    void Reg(const Json &json);
+    void Logout(int id);
 };
 
 #endif //LOGINSYS_H

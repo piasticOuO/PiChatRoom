@@ -3,12 +3,12 @@
 //
 
 #include "../include/Network.h"
-
+#include "../include/ChatSys.h"
+#include "../include/LoginSys.h"
 #include <cstdio>
 #include <cstring>
 #include <iostream>
 #include <memory>
-#include <mutex>
 #include <unistd.h>
 #include <sys/epoll.h>
 
@@ -22,6 +22,10 @@ Network::Network(int port, ThreadPool &pool):
     socket_id = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_id == -1) {
         perror("Could not create socket");
+    }
+    int opt = 1;
+    if (setsockopt(socket_id, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
+        perror("setsockopt error");
     }
     if (bind(socket_id, (sockaddr *) &address, sizeof(address)) == -1) {
         perror("Could not bind");
@@ -46,15 +50,16 @@ void Network::InjectDependency(LoginSys &login_sys, ChatSys &chat_sys) {
     while (!stop_flag) {
         sockaddr_in client{};
         socklen_t len = sizeof(client);
-        int socket_id = accept(socket_id, (sockaddr *) &client, &len);
-        if (socket_id == -1) {
+        int client_id = accept(socket_id, (sockaddr *) &client, &len);
+        if (client_id == -1) {
             perror("Could not accept");
             continue;
         }
         epoll_event temp_epoll_event{};
         temp_epoll_event.events = EPOLLIN;
-        temp_epoll_event.data.fd = socket_id;
-        epoll_ctl(epoll_id, EPOLL_CTL_ADD, socket_id, &temp_epoll_event);
+        temp_epoll_event.data.fd = client_id;
+        epoll_ctl(epoll_id, EPOLL_CTL_ADD, client_id, &temp_epoll_event);
+        std::cout << "[Info] Connection from fd : " + std::to_string(client_id) + " Accepted" << std::endl;
     }
 }
 
@@ -64,6 +69,7 @@ void Network::InjectDependency(LoginSys &login_sys, ChatSys &chat_sys) {
         int events_cnt = epoll_wait(epoll_id, events.get(), 1024, -1);
         for (int i = 0; i < events_cnt; i++) {
             int fd = events[i].data.fd;
+            std::cout << "[Info] Heard from fd " << fd << std::endl;
             HandleClient(fd);
         }
     }
@@ -81,18 +87,23 @@ void Network::HandleClient(int fd) {
         closeConnect(fd);
         return;
     }
+    std::cout << buf << std::endl;
     Json json = Json::parse(std::string(buf, len));
     if (json.is_object()) {
         json["fd"] = fd;
-        switch (json["type"]) {
-            case "login":
-                login_sys -> Login(json["id"], json["password"]);
+        MessageType type = json["type"];
+        switch (type) {
+            case LOGIN:
+                std::cout << "[Info] Heard from " << fd << " : Login Request" << std::endl;
+                pool.enqueue(std::bind(&LoginSys::Login, login_sys, json));
                 break;
-            case "ret":
-                login_sys -> Reg(json["password"], json["name"]);
+            case REG:
+                std::cout << "[Info] Heard from " << fd << " : Reg Request" << std::endl;
+                pool.enqueue(std::bind(&LoginSys::Reg, login_sys, json));
                 break;
-            case "chat":
-                chat_sys -> Broadcast(json["content"]);
+            case CHAT:
+                std::cout << "[Info] Heard from " << fd << " : Chat" << std::endl;
+                pool.enqueue(std::bind(&ChatSys::Broadcast, chat_sys, json));
                 break;
             default:
                 std::cerr << "Unknown JSON type" << std::endl;
@@ -103,5 +114,7 @@ void Network::HandleClient(int fd) {
 }
 
 void Network::SendMessage(int fd, const Json &msg) {
-    send(fd, msg.dump().c_str(), 0, MSG_NOSIGNAL);
+    std::cout << "Sending Message..." << std::endl;
+    std::string msgstr = msg.dump();
+    send(fd, msgstr.c_str(), msgstr.size(), MSG_NOSIGNAL);
 }

@@ -6,36 +6,55 @@
 
 #include <iostream>
 #include <ostream>
+#include <mysql_driver.h>
 
 Database::Database(int port, const std::string &host, const std::string &user, const std::string &password, const std::string &db) :
-                  port (port), host (host), user (user), password (password), db (db) {
-    mysql = mysql_init(nullptr);
-    if (mysql == nullptr) {
-        std::cerr << "mysql_init failed" << std::endl;
+                  port (port) {
+    driver = sql::mysql::get_driver_instance();
+    conn.reset(driver -> connect(host.c_str(), user.c_str(), password.c_str()));
+    conn -> setSchema(db);
+    std::cout << "[DEBUG] Database port: " << port << std::endl;  // 打印端口值
+}
+
+Database::~Database(){
+    if (conn) {
+        conn -> close();
     }
-    connect();
 }
 
-Database::~Database() {
-    mysql_close(mysql);
-}
+int Database::ExecuteUpdate(const std::string& sql, int *insert_id) {
 
-bool Database::connect() {
-    if (mysql_real_connect(mysql, host.c_str(), user.c_str(), password.c_str(), db.c_str(), 0, nullptr, 0) == nullptr) {
-        std::cerr << "mysql_real_connect failed" << std::endl;
-        return false;
+    if (!conn || conn->isClosed()) {
+        std::cerr << "[ERROR] Database closed!" << std::endl;
     }
-    return true;
+
+    try {
+        sql::Statement* stmt = conn->createStatement();
+        int count = stmt->executeUpdate(sql);
+        if (insert_id != nullptr) {
+            stmt->execute("SELECT LAST_INSERT_ID()");
+            sql::ResultSet* res = stmt->getResultSet();
+            res->next();
+            *insert_id = res->getUInt64(1);
+        }
+        delete stmt;
+        return count;
+    } catch (sql::SQLException &e) {
+        if (e.getErrorCode() == 1062) {
+            return 0;
+        }
+        throw std::runtime_error("SQL Error: " + std::string(e.what()));
+    }
 }
 
-int Database::query(const std::string &query) {
-    return mysql_query(mysql, query.c_str());
-}
-
-MYSQL_RES *Database::getResult() {
-    return mysql_store_result(mysql);
-}
-
-bool Database::commit() {
-    return mysql_commit(mysql);
+using StmtPtr = std::unique_ptr<sql::Statement>;
+using ResultPtr = std::unique_ptr<sql::ResultSet>;
+std::pair<StmtPtr, ResultPtr> Database::ExecuteQuery(const std::string& sql) {
+    try {
+        StmtPtr stmt_ptr(conn->createStatement());
+        ResultPtr res_ptr(stmt_ptr->executeQuery(sql));
+        return std::pair(std::move(stmt_ptr), std::move(res_ptr));
+    } catch (sql::SQLException &e) {
+        throw std::runtime_error("SQL Error: " + std::string(e.what()));
+    }
 }

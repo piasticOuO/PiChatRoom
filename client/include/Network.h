@@ -4,11 +4,11 @@
 
 #ifndef NETWORK_H
 #define NETWORK_H
-#include "LoginSys.h"
-#include "ChatSys.h"
-#include "../../tools/include/ThreadPool.h"
-#include "../../tools/include/json.hpp"
-using Json = nlohmann::json;
+#include "../../tools/include/ThreadPool.hpp"
+#include "../../tools/include/Message.hpp"
+
+class LoginSys;
+class ChatSys;
 
 class Network {
     int sockfd;

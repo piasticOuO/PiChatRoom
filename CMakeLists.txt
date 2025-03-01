@@ -3,32 +3,42 @@ project(PiChatRoom)
 
 set(CMAKE_CXX_STANDARD 20)
 
+find_package(Threads REQUIRED)
+
 add_executable(PiChatRoomServer server/src/Server.cpp
         server/src/Network.cpp
-        server/include/Network.h
         server/src/Database.cpp
-        server/include/Database.h
         server/src/LoginSys.cpp
-        server/include/LoginSys.h
         server/src/ChatSys.cpp
+
+        server/include/LoginSys.h
         server/include/ChatSys.h
+        server/include/Network.h
+        server/include/Database.h
 
+        tools/include/ThreadPool.hpp
         tools/src/ThreadPool.cpp
+)
 
-        tools/include/ThreadPool.h
+target_link_libraries(PiChatRoomServer PRIVATE
+        mysqlcppconn
+        mysqlclient
+        Threads::Threads
 )
 
 add_executable(PiChatRoomClient client/src/Client.cpp
         client/src/LoginSys.cpp
         client/src/Network.cpp
+        client/src/ChatSys.cpp
 
         client/include/LoginSys.h
         client/include/Network.h
-        client/src/ChatSys.cpp
         client/include/ChatSys.h
 
-
+        tools/include/ThreadPool.hpp
         tools/src/ThreadPool.cpp
+)
 
-        tools/include/ThreadPool.h
+target_link_libraries(PiChatRoomClient PRIVATE
+        Threads::Threads
 )

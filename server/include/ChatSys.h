@@ -7,17 +7,18 @@
 #include <unordered_map>
 
 #include "Database.h"
-#include "Network.h"
-#include "../../tools/include/json.hpp"
-using Json = nlohmann::json;
+#include "../../tools/include/Message.hpp"
+#include "../../tools/include/ThreadPool.hpp"
+
+class Network;
 
 class ChatSys {
-    Database &db;
+    std::shared_ptr<Database> db;
     Network &network;
     ThreadPool &pool;
     std::unordered_map<int, int> chat_users;
 public:
-    ChatSys(Database &db, Network &network, ThreadPool &pool);
+    ChatSys(std::shared_ptr<Database> db, Network &network, ThreadPool &pool);
     ~ChatSys();
     void Broadcast(const Json &msg);
     int AddUser(int userid, int userfd);

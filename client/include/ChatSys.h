@@ -4,9 +4,9 @@
 
 #ifndef CHATSYS_H
 #define CHATSYS_H
+#include "../../tools/include/ThreadPool.hpp"
+#include "../../tools/include/Message.hpp"
 #include "Network.h"
-#include "../../tools/include/json.hpp"
-using Json = nlohmann::json;
 
 class ChatSys {
     Network &network;

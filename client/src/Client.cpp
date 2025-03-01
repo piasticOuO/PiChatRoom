@@ -13,6 +13,8 @@ int main() {
     ChatSys chat_sys(network, pool);
     network.initDependency(login_sys, chat_sys);
 
+    std::thread listening_thread(&Network::listening, &network);
+
     std::cout << "Hello World! Welcome to the piChatRoom!" << std::endl;
     // Login
     int id = -1;
@@ -37,7 +39,10 @@ int main() {
             std::cin >> password;
             login_sys.reg(name, password);
             while (!login_sys.getLoginStatus()) {}
-            if (login_sys.getLoginStatus() == 1) { break; }
+            if (login_sys.getLoginStatus() == 1) {
+                id = login_sys.getLoginID();
+                break;
+            }
 
         } else {
             std::cout << "Invaild input! Try Again." << std::endl;
@@ -46,11 +51,14 @@ int main() {
 
     // Chat
     std::cout << "Successfully login! Welcome to the chatroom." << std::endl;
+    chat_sys.setChatID(id);
     while (true) {
         std::string str;
         getline(std::cin, str);
         chat_sys.sendMessage(str);
     }
+
+    listening_thread.join();
 
     return 0;
 }

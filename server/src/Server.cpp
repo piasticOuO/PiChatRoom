@@ -9,22 +9,28 @@
 #include "../include/Network.h"
 #include "../include/Database.h"
 #include "../include/LoginSys.h"
-#include "../../tools/include/ThreadPool.h"
+#include "../../tools/include/ThreadPool.hpp"
 
 int main() {
 
-    Database database(8080, "piasticOuO", "piasticOuO", "ubuntu", "ChatRoom");
+    auto database = std::make_shared<Database>(8080, "localhost", "piasticOuO", "ubuntu", "ChatRoom");
     ThreadPool pool(24);
 
     Network network(9527, pool);
-    LoginSys login_sys(database, network, pool);
     ChatSys chat_sys(database, network, pool);
+    LoginSys login_sys(database, network, pool, chat_sys);
+    network.InjectDependency(login_sys, chat_sys);
 
-    std::thread connectlistener_thread(network.ListenConnect, NULL);
-    std::thread messagelistener_thread(network.ListenMessage, NULL);
+    std::cout << "[Info] Server started." << std::endl;
+
+
+    std::thread connectlistener_thread(&Network::ListenConnect, &network);
+    std::thread messagelistener_thread(&Network::ListenMessage, &network);
 
     connectlistener_thread.join();
     messagelistener_thread.join();
+
+    std::cout << "Bye!" << std::endl;
 
     return 0;
 }

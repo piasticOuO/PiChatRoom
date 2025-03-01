@@ -1,8 +1,7 @@
 #include "../include/LoginSys.h"
-#include "../../tools/include/json.hpp"
-using Json = nlohmann::json;
 
 #include <cmath>
+#include <iostream>
 #include <unistd.h>
 
 LoginSys::LoginSys(Network &network, ThreadPool &pool) :  network(network), pool(pool) {}
@@ -40,22 +39,24 @@ int LoginSys::getLoginID() {
 
 int LoginSys::login(int id, const std::string &password) {
     Json json{
-        {"type", "login"},
+        {"type", LOGIN},
         {"id", id},
         {"password", password}
     };
-    pool.enqueue(std::bind(network.sendMessage, json));
+    pool.enqueue(std::bind(&Network::sendMessage, &network,json));
+    std::cout << "Your Login Request is posting..." << std::endl;
     setLoginStatus(0);
     return 0;
 }
 
 int LoginSys::reg(const std::string &name, const std::string &password) {
     Json json{
-            {"type", "reg"},
+            {"type", REG},
             {"name", name},
             {"password", password}
     };
-    pool.enqueue(std::bind(network.sendMessage, json));
+    pool.enqueue(std::bind(&Network::sendMessage, &network,json));
+    std::cout << "Your Register Request is posting..." << std::endl;
     setLoginStatus(0);
     return 0;
 }

@@ -1,10 +1,6 @@
-//
-// Created by piasticouo on 25-2-18.
-//
+#include "../include/ThreadPool.hpp"
 
-#include <utility>
-
-#include "../include/ThreadPool.h"
+#include <iostream>
 
 ThreadPool::ThreadPool(int size) : work_threads(size) {
     for (int i = 0; i < size; i++) {
@@ -13,11 +9,12 @@ ThreadPool::ThreadPool(int size) : work_threads(size) {
                 std::function<void()> task;
                 {
                     std::unique_lock lock(queue_mutex);
-                    condition.wait(lock, [this]{return stop_flag || !task_queue.empty();});
+                    condition.wait(lock, [this]{ return stop_flag || !task_queue.empty();});
                     if (stop_flag) { return; }
                     task = task_queue.front();
                     task_queue.pop();
                 }
+                std::cout << "[DEBUG] ThreadPool has received a task" << std::endl;
                 task();
             }
         });

@@ -548,3 +548,103 @@ events:
       Running the CXX compiler's linker: "/usr/bin/ld" "-v"
       GNU ld (GNU Binutils for Ubuntu) 2.34
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/piasticouo/Desktop/clion-2024.3.2/bin/cmake/linux/x64/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/home/piasticouo/Desktop/clion-2024.3.2/bin/cmake/linux/x64/share/cmake-3.30/Modules/CheckCSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/home/piasticouo/Desktop/clion-2024.3.2/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
+      - "/home/piasticouo/Desktop/clion-2024.3.2/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "CMakeLists.txt:6 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-VhF41Z"
+      binary: "/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-VhF41Z"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-VhF41Z'
+        
+        Run Build Command(s): /home/piasticouo/Desktop/clion-2024.3.2/bin/ninja/linux/x64/ninja -v cmTC_2cfe0
+        [1/2] /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_2cfe0.dir/src.c.o -c /home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-VhF41Z/src.c
+        [2/2] : && /usr/bin/cc   CMakeFiles/cmTC_2cfe0.dir/src.c.o -o cmTC_2cfe0   && :
+        \x1b[31mFAILED: \x1b[0mcmTC_2cfe0 
+        : && /usr/bin/cc   CMakeFiles/cmTC_2cfe0.dir/src.c.o -o cmTC_2cfe0   && :
+        /usr/bin/ld: CMakeFiles/cmTC_2cfe0.dir/src.c.o: in function `main':
+        src.c:(.text+0x46): undefined reference to `pthread_create'
+        /usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
+        /usr/bin/ld: src.c:(.text+0x5e): undefined reference to `pthread_cancel'
+        /usr/bin/ld: src.c:(.text+0x6f): undefined reference to `pthread_join'
+        collect2: error: ld returned 1 exit status
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/piasticouo/Desktop/clion-2024.3.2/bin/cmake/linux/x64/share/cmake-3.30/Modules/CheckLibraryExists.cmake:69 (try_compile)"
+      - "/home/piasticouo/Desktop/clion-2024.3.2/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "/home/piasticouo/Desktop/clion-2024.3.2/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindThreads.cmake:175 (_threads_check_lib)"
+      - "CMakeLists.txt:6 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthreads"
+    directories:
+      source: "/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-n7Syk3"
+      binary: "/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-n7Syk3"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREADS_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-n7Syk3'
+        
+        Run Build Command(s): /home/piasticouo/Desktop/clion-2024.3.2/bin/ninja/linux/x64/ninja -v cmTC_65bf2
+        [1/2] /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create -o CMakeFiles/cmTC_65bf2.dir/CheckFunctionExists.c.o -c /home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-n7Syk3/CheckFunctionExists.c
+        [2/2] : && /usr/bin/cc -DCHECK_FUNCTION_EXISTS=pthread_create  CMakeFiles/cmTC_65bf2.dir/CheckFunctionExists.c.o -o cmTC_65bf2  -lpthreads && :
+        \x1b[31mFAILED: \x1b[0mcmTC_65bf2 
+        : && /usr/bin/cc -DCHECK_FUNCTION_EXISTS=pthread_create  CMakeFiles/cmTC_65bf2.dir/CheckFunctionExists.c.o -o cmTC_65bf2  -lpthreads && :
+        /usr/bin/ld: 找不到 -lpthreads
+        collect2: error: ld returned 1 exit status
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/piasticouo/Desktop/clion-2024.3.2/bin/cmake/linux/x64/share/cmake-3.30/Modules/CheckLibraryExists.cmake:69 (try_compile)"
+      - "/home/piasticouo/Desktop/clion-2024.3.2/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "/home/piasticouo/Desktop/clion-2024.3.2/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindThreads.cmake:176 (_threads_check_lib)"
+      - "CMakeLists.txt:6 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthread"
+    directories:
+      source: "/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-pyFmx1"
+      binary: "/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-pyFmx1"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREAD_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-pyFmx1'
+        
+        Run Build Command(s): /home/piasticouo/Desktop/clion-2024.3.2/bin/ninja/linux/x64/ninja -v cmTC_cc0d8
+        [1/2] /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create -o CMakeFiles/cmTC_cc0d8.dir/CheckFunctionExists.c.o -c /home/piasticouo/Desktop/workspace/PiChatRoom/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-pyFmx1/CheckFunctionExists.c
+        [2/2] : && /usr/bin/cc -DCHECK_FUNCTION_EXISTS=pthread_create  CMakeFiles/cmTC_cc0d8.dir/CheckFunctionExists.c.o -o cmTC_cc0d8  -lpthread && :
+        
+      exitCode: 0
+...

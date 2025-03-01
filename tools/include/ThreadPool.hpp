@@ -2,14 +2,13 @@
 // Created by piasticouo on 25-2-18.
 //
 
-#ifndef THREADPOOL_H
-#define THREADPOOL_H
+#ifndef THREADPOOL_HPP
+#define THREADPOOL_HPP
 #include <condition_variable>
 #include <functional>
 #include <thread>
 #include <vector>
-
-#include "../include/SafeQueue.h"
+#include <queue>
 
 class ThreadPool {
 public:
@@ -24,5 +23,4 @@ private:
    int stop_flag{};
 };
 
-
-#endif //THREADPOOL_H
+#endif //THREADPOOL_HPP

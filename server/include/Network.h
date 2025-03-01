@@ -7,9 +7,11 @@
 
 #include <netinet/in.h>
 
-#include "../../tools/include/ThreadPool.h"
-#include "../include/ChatSys.h"
-#include "../include/LoginSys.h"
+#include "../../tools/include/ThreadPool.hpp"
+#include "../../tools/include/Message.hpp"
+
+class LoginSys;
+class ChatSys;
 
 class Network {
     int socket_id;
@@ -28,7 +30,7 @@ public:
     [[noreturn]] void ListenMessage();
     void closeConnect(int fd);
     void HandleClient(int fd);
-    void SendMessage(int fd, const Json &msg);
+    static void SendMessage(int fd, const Json &msg);
 };
 
 
