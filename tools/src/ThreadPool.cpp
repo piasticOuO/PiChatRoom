@@ -14,7 +14,7 @@ ThreadPool::ThreadPool(int size) : work_threads(size) {
                     task = task_queue.front();
                     task_queue.pop();
                 }
-                std::cout << "[DEBUG] ThreadPool has received a task" << std::endl;
+                // std::cout << "[DEBUG] ThreadPool has received a task" << std::endl;
                 task();
             }
         });
