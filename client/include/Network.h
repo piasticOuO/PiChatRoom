@@ -19,7 +19,7 @@ class Network {
 public:
     Network(int port, ThreadPool &pool);
     ~Network();
-    void initDependency(LoginSys &login_sys, ChatSys &chat_sys);
+    void injectDependency(LoginSys &login_sys, ChatSys &chat_sys);
     void listening();
     void handleMessage(const Json &msg);
     void sendMessage(const Json &msg);

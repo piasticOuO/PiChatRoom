@@ -39,7 +39,7 @@ void LoginSys::Reg(const Json &json) {
         ret["id"] = id;
     }
 
-    network.SendMessage(json["fd"], ret);
+    network.sendMessage(json["fd"], ret);
 }
 
 void LoginSys::Login(const Json &json) {
@@ -57,11 +57,11 @@ void LoginSys::Login(const Json &json) {
         if (result_ptr -> getString("password") == password) {
             chat_sys.AddUser(id, fd);
             ret["result"] = "OK";
-            network.SendMessage(fd, ret);
+            network.sendMessage(fd, ret);
             return;
         }
     }
-    network.SendMessage(json["fd"], ret);
+    network.sendMessage(json["fd"], ret);
 }
 
 void LoginSys::Logout(int id) {

@@ -41,12 +41,12 @@ Network::~Network() {
     stop_flag = 1;
 }
 
-void Network::InjectDependency(LoginSys &login_sys, ChatSys &chat_sys) {
+void Network::injectDependency(LoginSys &login_sys, ChatSys &chat_sys) {
     this -> login_sys = &login_sys;
     this -> chat_sys = &chat_sys;
 }
 
-[[noreturn]] void Network::ListenConnect() {
+[[noreturn]] void Network::listenConnect() {
     while (!stop_flag) {
         sockaddr_in client{};
         socklen_t len = sizeof(client);
@@ -63,14 +63,14 @@ void Network::InjectDependency(LoginSys &login_sys, ChatSys &chat_sys) {
     }
 }
 
-[[noreturn]] void Network::ListenMessage() {
+[[noreturn]] void Network::listenMessage() {
     std::unique_ptr<epoll_event[]> events = std::make_unique<epoll_event[]>(1024);
     while (!stop_flag) {
         int events_cnt = epoll_wait(epoll_id, events.get(), 1024, -1);
         for (int i = 0; i < events_cnt; i++) {
             int fd = events[i].data.fd;
             std::cout << "[Info] Heard from fd " << fd << std::endl;
-            HandleClient(fd);
+            handleClient(fd);
         }
     }
 }
@@ -79,16 +79,7 @@ void Network::closeConnect(int fd) {
     epoll_ctl(epoll_id, EPOLL_CTL_DEL, fd, nullptr);
 }
 
-
-void Network::HandleClient(int fd) {
-    char buf[BUFSIZ];
-    ssize_t len = recv(fd, buf, BUFSIZ, 0);
-    if (len == 0) {
-        closeConnect(fd);
-        return;
-    }
-    std::cout << buf << std::endl;
-    Json json = Json::parse(std::string(buf, len));
+void Network::handleMessage(int fd, Json json) {
     if (json.is_object()) {
         json["fd"] = fd;
         MessageType type = json["type"];
@@ -96,15 +87,15 @@ void Network::HandleClient(int fd) {
             case LOGIN:
                 std::cout << "[Info] Heard from " << fd << " : Login Request" << std::endl;
                 pool.enqueue(std::bind(&LoginSys::Login, login_sys, json));
-                break;
+            break;
             case REG:
                 std::cout << "[Info] Heard from " << fd << " : Reg Request" << std::endl;
                 pool.enqueue(std::bind(&LoginSys::Reg, login_sys, json));
-                break;
+            break;
             case CHAT:
                 std::cout << "[Info] Heard from " << fd << " : Chat" << std::endl;
                 pool.enqueue(std::bind(&ChatSys::Broadcast, chat_sys, json));
-                break;
+            break;
             default:
                 std::cerr << "Unknown JSON type" << std::endl;
         }
@@ -113,8 +104,31 @@ void Network::HandleClient(int fd) {
     }
 }
 
-void Network::SendMessage(int fd, const Json &msg) {
-    std::cout << "Sending Message..." << std::endl;
+
+
+void Network::handleClient(int fd) {
+    std::unique_ptr<char> buf(new char[BUFSIZ]);
+    ssize_t len = read(fd, buf.get(), 1);
+    if (len > 0) {
+        std::string str(1, buf.get()[0]);
+        while (len > 0) {
+            len = read(fd, buf.get(), BUFSIZ);
+            str += std::string(buf.get(), len);
+        }
+        divideMessage(str, [this, fd](const Json& json) {
+            pool.enqueue([this, fd, json]() {
+                this->handleMessage(fd, json);
+            });
+        });
+    } else if (len == 0) {
+        closeConnect(fd);
+    }
+}
+
+void Network::sendMessage(int fd, const Json &msg) {
     std::string msgstr = msg.dump();
+    int len = msgstr.size();
+    msgstr = "O" + std::to_string(len) + "X" + msgstr;
+    std::cout << "Sending Message： " << msgstr << std::endl;
     send(fd, msgstr.c_str(), msgstr.size(), MSG_NOSIGNAL);
 }

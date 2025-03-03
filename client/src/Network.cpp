@@ -35,7 +35,7 @@ Network::~Network() {
     close(sockfd);
 }
 
-void Network::initDependency(LoginSys &login_sys, ChatSys &chat_sys) {
+void Network::injectDependency(LoginSys &login_sys, ChatSys &chat_sys) {
     this -> login_sys = &login_sys;
     this -> chat_sys = &chat_sys;
 }
@@ -43,18 +43,26 @@ void Network::initDependency(LoginSys &login_sys, ChatSys &chat_sys) {
 void Network::listening() {
     while (true) {
         std::unique_ptr<char> buf(new char[BUFSIZ]);
-        ssize_t len = read(sockfd, buf.get(), BUFSIZ - 1);
+        ssize_t len = read(sockfd, buf.get(), 1);
         if (len > 0) {
-            std::string str = std::string(buf.get(),len);
-
-            Json msg = Json::parse(str);
-            pool.enqueue(std::bind(&Network::handleMessage, this, msg));
+            std::string str(1, buf.get()[0]);
+            while (len > 0) {
+                len = read(sockfd, buf.get(), BUFSIZ);
+                str += std::string(buf.get(), len);
+            }
+            divideMessage(str, [this](const Json& json) {
+                pool.enqueue([this, json]() {
+                    this->handleMessage(json);
+                });
+            });
         } else if (len == 0) {
             std::cout << "[INFO] Server closed" << std::endl;
             break; // 退出循环
         }
     }
 }
+
+
 
 void Network::handleMessage(const Json &msg) {
     MessageType type = msg["type"];
@@ -78,5 +86,8 @@ void Network::handleMessage(const Json &msg) {
 
 void Network::sendMessage(const Json &msg) {
     std::string msgstr = msg.dump();
+    int len = msgstr.size();
+    msgstr = "O" + std::to_string(len) + "X" + msgstr;
+    std::cout << "Sending Message： " << msgstr << std::endl;
     send(sockfd, msgstr.c_str(), msgstr.size(), MSG_NOSIGNAL);
 }

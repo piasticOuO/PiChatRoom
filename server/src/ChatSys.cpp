@@ -50,9 +50,9 @@ void ChatSys::Broadcast(const Json &msg) {
         {"content", msg["content"]}
     };
     for (auto [id, fd] : chat_users) {
-        network.SendMessage(fd, msgall);
+        network.sendMessage(fd, msgall);
     }
-    network.SendMessage(msg["fd"], msgret);
+    network.sendMessage(msg["fd"], msgret);
 }
 
 

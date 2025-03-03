@@ -25,12 +25,13 @@ class Network {
 public:
     Network(int port, ThreadPool &pool);
     ~Network();
-    void InjectDependency(LoginSys &login_sys, ChatSys &chat_sys);
-    [[noreturn]] void ListenConnect();
-    [[noreturn]] void ListenMessage();
+    void injectDependency(LoginSys &login_sys, ChatSys &chat_sys);
+    [[noreturn]] void listenConnect();
+    [[noreturn]] void listenMessage();
     void closeConnect(int fd);
-    void HandleClient(int fd);
-    static void SendMessage(int fd, const Json &msg);
+    void handleClient(int fd);
+    void handleMessage(int fd, Json json);
+    void sendMessage(int fd, const Json &msg);
 };
 
 

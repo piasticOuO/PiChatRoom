@@ -19,13 +19,13 @@ int main() {
     Network network(9527, pool);
     ChatSys chat_sys(database, network, pool);
     LoginSys login_sys(database, network, pool, chat_sys);
-    network.InjectDependency(login_sys, chat_sys);
+    network.injectDependency(login_sys, chat_sys);
 
     std::cout << "[Info] Server started." << std::endl;
 
 
-    std::thread connectlistener_thread(&Network::ListenConnect, &network);
-    std::thread messagelistener_thread(&Network::ListenMessage, &network);
+    std::thread connectlistener_thread(&Network::listenConnect, &network);
+    std::thread messagelistener_thread(&Network::listenMessage, &network);
 
     connectlistener_thread.join();
     messagelistener_thread.join();

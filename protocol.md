@@ -1,3 +1,13 @@
+### 消息头
+```cpp
+'O' len 'X' json
+// 'O' = char 'O'
+// 'X' = chat 'X'
+// len = 长度
+// json = 信息
+```
+
+### 消息类型
 #### LOGIN
 ```cpp
     Json json{

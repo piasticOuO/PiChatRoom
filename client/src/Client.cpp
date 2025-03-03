@@ -11,7 +11,7 @@ int main() {
     Network network(9527, pool);
     LoginSys login_sys(network, pool);
     ChatSys chat_sys(network, pool);
-    network.initDependency(login_sys, chat_sys);
+    network.injectDependency(login_sys, chat_sys);
 
     std::thread listening_thread(&Network::listening, &network);
 
@@ -52,6 +52,7 @@ int main() {
     // Chat
     std::cout << "Successfully login! Welcome to the chatroom." << std::endl;
     chat_sys.setChatID(id);
+    getchar();
     while (true) {
         std::string str;
         getline(std::cin, str);
