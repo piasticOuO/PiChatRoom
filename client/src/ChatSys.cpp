@@ -20,7 +20,7 @@ void ChatSys::sendMessage(const std::string &str) {
 
 void ChatSys::handleChatRet(const Json &ret) {
     if (ret["result"] != "OK") {
-        std::cerr << "Your message fail sending." << std::endl;
+        std::cerr << "[WARN] Your message fail sending." << std::endl;
     }
 }
 

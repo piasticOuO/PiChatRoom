@@ -23,7 +23,6 @@ int main() {
 
     std::cout << "[Info] Server started." << std::endl;
 
-
     std::thread connectlistener_thread(&Network::listenConnect, &network);
     std::thread messagelistener_thread(&Network::listenMessage, &network);
 

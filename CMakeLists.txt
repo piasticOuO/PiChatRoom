@@ -17,7 +17,10 @@ add_executable(PiChatRoomServer server/src/Server.cpp
         server/include/Database.h
 
         tools/include/ThreadPool.hpp
+        tools/include/Message.hpp
+
         tools/src/ThreadPool.cpp
+        tools/src/Message.cpp
 )
 
 target_link_libraries(PiChatRoomServer PRIVATE
@@ -36,7 +39,10 @@ add_executable(PiChatRoomClient client/src/Client.cpp
         client/include/ChatSys.h
 
         tools/include/ThreadPool.hpp
+        tools/include/Message.hpp
+
         tools/src/ThreadPool.cpp
+        tools/src/Message.cpp
 )
 
 target_link_libraries(PiChatRoomClient PRIVATE

@@ -16,7 +16,7 @@ Network::Network(int port, ThreadPool &pool) : pool(pool), login_sys(), chat_sys
     int ret = 0;
     ret = socket(AF_INET, SOCK_STREAM, 0);
     if (ret == -1) {
-        std::cerr << "Socket creation failed." << std::endl;
+        std::cerr << "[WARN]Socket creation failed." << std::endl;
     }
     sockfd = ret;
 
@@ -27,7 +27,7 @@ Network::Network(int port, ThreadPool &pool) : pool(pool), login_sys(), chat_sys
 
     ret = connect(sockfd, (sockaddr *) &sin, sizeof(sin));
     if (ret == -1) {
-        std::cerr << "Connection with the server failed." << std::endl;
+        std::cerr << "[WARN]Connection with the server failed." << std::endl;
     }
 }
 
@@ -43,21 +43,18 @@ void Network::injectDependency(LoginSys &login_sys, ChatSys &chat_sys) {
 void Network::listening() {
     while (true) {
         std::unique_ptr<char> buf(new char[BUFSIZ]);
-        ssize_t len = read(sockfd, buf.get(), 1);
+        ssize_t len = read(sockfd, buf.get(), BUFSIZ);
         if (len > 0) {
-            std::string str(1, buf.get()[0]);
-            while (len > 0) {
-                len = read(sockfd, buf.get(), BUFSIZ);
-                str += std::string(buf.get(), len);
-            }
+            std::string str = std::string(buf.get(), len);
+            // std::cout << "[DEBUG]" << str << std::endl;
             divideMessage(str, [this](const Json& json) {
                 pool.enqueue([this, json]() {
                     this->handleMessage(json);
                 });
             });
         } else if (len == 0) {
-            std::cout << "[INFO] Server closed" << std::endl;
-            break; // 退出循环
+            std::cout << "[INFO] Client closed" << std::endl;
+            return;
         }
     }
 }
@@ -80,7 +77,7 @@ void Network::handleMessage(const Json &msg) {
             chat_sys -> getMessage(msg);
             break;
         default :
-            std::cerr << "Unknown json type" << std::endl;
+            std::cerr << "[WARN] Unknown json type" << std::endl;
     }
 }
 
@@ -88,6 +85,6 @@ void Network::sendMessage(const Json &msg) {
     std::string msgstr = msg.dump();
     int len = msgstr.size();
     msgstr = "O" + std::to_string(len) + "X" + msgstr;
-    std::cout << "Sending Message： " << msgstr << std::endl;
+    // std::cout << "[DEBUG]Sending Message： " << msgstr << std::endl;
     send(sockfd, msgstr.c_str(), msgstr.size(), MSG_NOSIGNAL);
 }

@@ -52,7 +52,9 @@ void Network::injectDependency(LoginSys &login_sys, ChatSys &chat_sys) {
         socklen_t len = sizeof(client);
         int client_id = accept(socket_id, (sockaddr *) &client, &len);
         if (client_id == -1) {
-            perror("Could not accept");
+            if (errno != EAGAIN && errno != EWOULDBLOCK) {
+                perror("Could not accept");
+            }
             continue;
         }
         epoll_event temp_epoll_event{};
@@ -108,19 +110,16 @@ void Network::handleMessage(int fd, Json json) {
 
 void Network::handleClient(int fd) {
     std::unique_ptr<char> buf(new char[BUFSIZ]);
-    ssize_t len = read(fd, buf.get(), 1);
+    ssize_t len = recv(fd, buf.get(), BUFSIZ, 0);
     if (len > 0) {
-        std::string str(1, buf.get()[0]);
-        while (len > 0) {
-            len = read(fd, buf.get(), BUFSIZ);
-            str += std::string(buf.get(), len);
-        }
+        std::string str = std::string(buf.get(), len);
         divideMessage(str, [this, fd](const Json& json) {
             pool.enqueue([this, fd, json]() {
                 this->handleMessage(fd, json);
             });
         });
     } else if (len == 0) {
+        std::cout << "[INFO] Client closed" << std::endl;
         closeConnect(fd);
     }
 }
@@ -129,6 +128,6 @@ void Network::sendMessage(int fd, const Json &msg) {
     std::string msgstr = msg.dump();
     int len = msgstr.size();
     msgstr = "O" + std::to_string(len) + "X" + msgstr;
-    std::cout << "Sending Message： " << msgstr << std::endl;
+    std::cout << "Sending Message： " << msgstr << "to " << fd << std::endl;
     send(fd, msgstr.c_str(), msgstr.size(), MSG_NOSIGNAL);
 }

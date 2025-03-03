@@ -85,6 +85,12 @@ build CMakeFiles/PiChatRoomServer.dir/tools/src/ThreadPool.cpp.o: CXX_COMPILER__
   OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
   OBJECT_FILE_DIR = CMakeFiles/PiChatRoomServer.dir/tools/src
 
+build CMakeFiles/PiChatRoomServer.dir/tools/src/Message.cpp.o: CXX_COMPILER__PiChatRoomServer_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/tools/src/Message.cpp || cmake_object_order_depends_target_PiChatRoomServer
+  DEP_FILE = CMakeFiles/PiChatRoomServer.dir/tools/src/Message.cpp.o.d
+  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomServer.dir/tools/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target PiChatRoomServer
@@ -93,7 +99,7 @@ build CMakeFiles/PiChatRoomServer.dir/tools/src/ThreadPool.cpp.o: CXX_COMPILER__
 #############################################
 # Link the executable PiChatRoomServer
 
-build PiChatRoomServer: CXX_EXECUTABLE_LINKER__PiChatRoomServer_Debug CMakeFiles/PiChatRoomServer.dir/server/src/Server.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/Network.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/Database.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/LoginSys.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/ChatSys.cpp.o CMakeFiles/PiChatRoomServer.dir/tools/src/ThreadPool.cpp.o
+build PiChatRoomServer: CXX_EXECUTABLE_LINKER__PiChatRoomServer_Debug CMakeFiles/PiChatRoomServer.dir/server/src/Server.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/Network.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/Database.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/LoginSys.cpp.o CMakeFiles/PiChatRoomServer.dir/server/src/ChatSys.cpp.o CMakeFiles/PiChatRoomServer.dir/tools/src/ThreadPool.cpp.o CMakeFiles/PiChatRoomServer.dir/tools/src/Message.cpp.o
   FLAGS = -g
   LINK_LIBRARIES = -lmysqlcppconn  -lmysqlclient  -lpthread
   OBJECT_DIR = CMakeFiles/PiChatRoomServer.dir
@@ -141,6 +147,12 @@ build CMakeFiles/PiChatRoomClient.dir/tools/src/ThreadPool.cpp.o: CXX_COMPILER__
   OBJECT_DIR = CMakeFiles/PiChatRoomClient.dir
   OBJECT_FILE_DIR = CMakeFiles/PiChatRoomClient.dir/tools/src
 
+build CMakeFiles/PiChatRoomClient.dir/tools/src/Message.cpp.o: CXX_COMPILER__PiChatRoomClient_unscanned_Debug /home/piasticouo/Desktop/workspace/PiChatRoom/tools/src/Message.cpp || cmake_object_order_depends_target_PiChatRoomClient
+  DEP_FILE = CMakeFiles/PiChatRoomClient.dir/tools/src/Message.cpp.o.d
+  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/PiChatRoomClient.dir
+  OBJECT_FILE_DIR = CMakeFiles/PiChatRoomClient.dir/tools/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target PiChatRoomClient
@@ -149,7 +161,7 @@ build CMakeFiles/PiChatRoomClient.dir/tools/src/ThreadPool.cpp.o: CXX_COMPILER__
 #############################################
 # Link the executable PiChatRoomClient
 
-build PiChatRoomClient: CXX_EXECUTABLE_LINKER__PiChatRoomClient_Debug CMakeFiles/PiChatRoomClient.dir/client/src/Client.cpp.o CMakeFiles/PiChatRoomClient.dir/client/src/LoginSys.cpp.o CMakeFiles/PiChatRoomClient.dir/client/src/Network.cpp.o CMakeFiles/PiChatRoomClient.dir/client/src/ChatSys.cpp.o CMakeFiles/PiChatRoomClient.dir/tools/src/ThreadPool.cpp.o
+build PiChatRoomClient: CXX_EXECUTABLE_LINKER__PiChatRoomClient_Debug CMakeFiles/PiChatRoomClient.dir/client/src/Client.cpp.o CMakeFiles/PiChatRoomClient.dir/client/src/LoginSys.cpp.o CMakeFiles/PiChatRoomClient.dir/client/src/Network.cpp.o CMakeFiles/PiChatRoomClient.dir/client/src/ChatSys.cpp.o CMakeFiles/PiChatRoomClient.dir/tools/src/ThreadPool.cpp.o CMakeFiles/PiChatRoomClient.dir/tools/src/Message.cpp.o
   FLAGS = -g
   LINK_LIBRARIES = -lpthread
   OBJECT_DIR = CMakeFiles/PiChatRoomClient.dir
