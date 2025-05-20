@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.22)
 project(PiChatRoom)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -11,11 +11,6 @@ add_executable(PiChatRoomServer server/src/Server.cpp
         server/src/LoginSys.cpp
         server/src/ChatSys.cpp
 
-        server/include/LoginSys.h
-        server/include/ChatSys.h
-        server/include/Network.h
-        server/include/Database.h
-
         tools/include/ThreadPool.hpp
         tools/include/Message.hpp
 
@@ -27,6 +22,11 @@ target_link_libraries(PiChatRoomServer PRIVATE
         mysqlcppconn
         mysqlclient
         Threads::Threads
+)
+
+target_include_directories(PiChatRoomServer PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/server/include
+        /usr/include/mysql-cppconn/jdbc
 )
 
 add_executable(PiChatRoomClient client/src/Client.cpp

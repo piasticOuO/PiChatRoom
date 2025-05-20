@@ -60,7 +60,6 @@ void Network::listening() {
 }
 
 
-
 void Network::handleMessage(const Json &msg) {
     MessageType type = msg["type"];
     switch (type) {

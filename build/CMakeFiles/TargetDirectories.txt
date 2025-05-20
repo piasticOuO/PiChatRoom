@@ -1,0 +1,4 @@
+/home/piasticouo/PiChatRoom/build/CMakeFiles/PiChatRoomServer.dir
+/home/piasticouo/PiChatRoom/build/CMakeFiles/PiChatRoomClient.dir
+/home/piasticouo/PiChatRoom/build/CMakeFiles/edit_cache.dir
+/home/piasticouo/PiChatRoom/build/CMakeFiles/rebuild_cache.dir

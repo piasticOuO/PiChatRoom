@@ -46,7 +46,7 @@ void Network::injectDependency(LoginSys &login_sys, ChatSys &chat_sys) {
     this -> chat_sys = &chat_sys;
 }
 
-[[noreturn]] void Network::listenConnect() {
+void Network::listenConnect() {
     while (!stop_flag) {
         sockaddr_in client{};
         socklen_t len = sizeof(client);
@@ -65,7 +65,7 @@ void Network::injectDependency(LoginSys &login_sys, ChatSys &chat_sys) {
     }
 }
 
-[[noreturn]] void Network::listenMessage() {
+void Network::listenMessage() {
     std::unique_ptr<epoll_event[]> events = std::make_unique<epoll_event[]>(1024);
     while (!stop_flag) {
         int events_cnt = epoll_wait(epoll_id, events.get(), 1024, -1);
@@ -88,15 +88,21 @@ void Network::handleMessage(int fd, Json json) {
         switch (type) {
             case LOGIN:
                 std::cout << "[Info] Heard from " << fd << " : Login Request" << std::endl;
-                pool.enqueue(std::bind(&LoginSys::Login, login_sys, json));
-            break;
+                pool.enqueue([this, json](){
+                    this -> login_sys -> Login(json);
+                });
+                break;
             case REG:
                 std::cout << "[Info] Heard from " << fd << " : Reg Request" << std::endl;
-                pool.enqueue(std::bind(&LoginSys::Reg, login_sys, json));
-            break;
+                pool.enqueue([this, json](){
+                    this -> login_sys -> Reg(json);
+                });
+                break;
             case CHAT:
                 std::cout << "[Info] Heard from " << fd << " : Chat" << std::endl;
-                pool.enqueue(std::bind(&ChatSys::Broadcast, chat_sys, json));
+                pool.enqueue([this, json](){
+                    this -> chat_sys -> Broadcast(json);
+                });
             break;
             default:
                 std::cerr << "Unknown JSON type" << std::endl;

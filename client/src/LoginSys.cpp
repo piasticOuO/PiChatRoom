@@ -18,17 +18,22 @@ void LoginSys::setLoginStatus(int login_status) {
 
 void LoginSys::handleLoginRet(const Json &ret) {
     if (ret["result"] == "OK") {
+        std::cout << "Successfully login! Welcome to the chatroom." << std::endl;
         setLoginStatus(1);
     } else {
+        std::cout << "Your Login Request is rejected. Try Again?" << std::endl;
         setLoginStatus(-1);
     }
 }
 
 void LoginSys::handleRegRet(const Json &ret) {
     if (ret["result"] == "OK") {
+        std::cout << "Successfully register! Welcome to the chatroom." << std::endl;
+        std::cout << "Your ID is " << ret["id"] << " , please remember it!" << std::endl;
         setLoginStatus(1);
         login_id = ret["id"];
     } else {
+        std::cout << "Your Register Request is rejected. Try Again?" << std::endl;
         setLoginStatus(-1);
     }
 }

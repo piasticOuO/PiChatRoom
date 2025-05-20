@@ -26,8 +26,8 @@ public:
     Network(int port, ThreadPool &pool);
     ~Network();
     void injectDependency(LoginSys &login_sys, ChatSys &chat_sys);
-    [[noreturn]] void listenConnect();
-    [[noreturn]] void listenMessage();
+    void listenConnect();
+    void listenMessage();
     void closeConnect(int fd);
     void handleClient(int fd);
     void handleMessage(int fd, Json json);

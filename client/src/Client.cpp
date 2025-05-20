@@ -50,7 +50,6 @@ int main() {
     }
 
     // Chat
-    std::cout << "Successfully login! Welcome to the chatroom." << std::endl;
     chat_sys.setChatID(id);
     getchar();
     while (true) {
